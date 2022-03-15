@@ -1,0 +1,7 @@
+{
+  "name": "KOBO-MRZ",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
