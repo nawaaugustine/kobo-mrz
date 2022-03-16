@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "KOBO-MRZ",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

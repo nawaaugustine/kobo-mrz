@@ -6,9 +6,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Scan', url: '/scanner/Scanner', icon: 'scan' },
-    { title: 'Upload Form', url: '/folder/upload/Upload', icon: 'cloud-upload' },
-    { title: 'Settings', url: '/folder/settings/Settings', icon: 'settings' },
+    { title: 'Scan', url: '/scanner', icon: 'scan' },
+    { title: 'Upload Form', url: '/upload', icon: 'cloud-upload' },
+    { title: 'Settings', url: '/settings', icon: 'settings' },
 
   ];
   constructor() {}

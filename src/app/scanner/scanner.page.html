@@ -3,20 +3,16 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ folder }}</ion-title>
+    <ion-title>Scanners</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [style.--background]="scanActive?'#00000000':'#ffffff'">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">{{ folder }}</ion-title>
+      <ion-title size="large">Scanners</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <div id="container">
-   
-  </div>
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <ion-fab-button color="dark">
@@ -26,7 +22,7 @@
       <ion-fab-button color="light">
         <ion-icon name="scan"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="light">
+      <ion-fab-button color="light" (click)="startScanner()" [hidden]="scanActive">
         <ion-icon name="barcode"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="light">
@@ -35,4 +31,14 @@
     </ion-fab-list>
   </ion-fab>
 
+  <ion-row class="scan-button" [hidden]="!scanActive">
+    <ion-col class="ion-no-padding">
+      <ion-button expand="full" (click)="stopScanner()">Stop</ion-button>
+    </ion-col>
+  </ion-row>
+  <div class="scan-box" [hidden]="!scanActive"></div>
+
 </ion-content>
+
+
+
