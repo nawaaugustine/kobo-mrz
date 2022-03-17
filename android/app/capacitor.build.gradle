@@ -17,7 +17,7 @@ dependencies {
     implementation project(':idpass-smartscanner-capacitor')
 
 }
-
+apply from: "../../node_modules/cordova-plugin-document-scanner/src/android/build.gradle"
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()

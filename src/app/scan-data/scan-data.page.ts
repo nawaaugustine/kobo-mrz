@@ -9,9 +9,9 @@ import { ModalController } from '@ionic/angular';
 export class ScanDataPage implements OnInit {
 
     // Data passed in by componentProps
-    @Input() firstName: string;
-    @Input() lastName: string;
-    @Input() middleInitial: string;
+    //TODO: Add Input for string barcode date
+    @Input() result: object;
+    @Input() type: string;
 
   constructor( private modalCtr: ModalController ) { }
 

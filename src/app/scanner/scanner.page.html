@@ -20,12 +20,15 @@
     </ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button color="light">
-        <ion-icon name="qr-code"></ion-icon>
+        <ion-icon name="qr-code" (click)="startScanner()" [hidden]="scanActive"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="light" (click)="startScanner()" [hidden]="scanActive">
         <ion-icon name="barcode"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="light">
+      <ion-fab-button color="light" (click)="documentScannerFunction()">
+        <ion-icon name="document-attach"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="light" (click)="mrzScanner()">
         <ion-icon name="scan"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>

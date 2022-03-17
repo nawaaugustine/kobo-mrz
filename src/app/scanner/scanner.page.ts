@@ -4,6 +4,9 @@ import { Plugins } from '@capacitor/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { ToastController, ModalController } from '@ionic/angular';
 import { ScanDataPage } from '../scan-data/scan-data.page';
+import { DocumentScanner, DocumentScannerOptions } from '@ionic-native/document-scanner/ngx';
+
+const { SmartScannerPlugin } = Plugins;
 
 @Component({
   selector: 'app-scanner',
@@ -11,10 +14,15 @@ import { ScanDataPage } from '../scan-data/scan-data.page';
   styleUrls: ['./scanner.page.scss'],
 })
 export class ScannerPage implements OnInit {
-
   scanActive = false;
+  data: any;
+  modalDataResponse: any;
 
-  constructor(private toastController: ToastController, private modalController: ModalController) { }
+  constructor(
+    private toastController: ToastController,
+    private modalController: ModalController,
+    private documentScanner: DocumentScanner
+  ) {}
 
   async checkPermission() {
     return new Promise(async (resolve, reject) => {
@@ -39,16 +47,63 @@ export class ScannerPage implements OnInit {
 
       if (result.hasContent) {
         this.scanActive = false;
-        this.handleButtonClick();
-        this.presentModal(result.content);
-        //alert(result.content); //The QR content will come out here
-        //Handle the data as your heart desires here
+        this.handleButtonClickToast(
+          'Successfully Scanned',
+          'success',
+          'information-circle'
+        );
+        this.presentModal(JSON.parse(result.content), 'barcode');
       } else {
-        alert('NO DATA FOUND!');
+        this.handleButtonClickToast('NO DATA FOUND!', 'danger', 'close-circle');
       }
     } else {
-      alert('NOT ALLOWED!');
+      this.handleButtonClickToast('NOT ALLOWED!', 'danger', 'close-circle');
     }
+  }
+
+  async mrzScanner() {
+    const result = await SmartScannerPlugin.executeScanner({
+      action: 'START_SCANNER',
+      options: {
+        mode: 'mrz',
+        mrzFormat: 'MRTD_TD1',
+        config: {
+          background: '#89837c',
+          branding: false,
+          isManualCapture: true,
+          label: 'Scanning ID',
+        },
+      },
+    });
+
+    const isNotEmpty = Object.keys(result).length > 0;
+
+    if (isNotEmpty) {
+      this.handleButtonClickToast(
+        'Successfully Scanned',
+        'success',
+        'information-circle'
+      );
+      this.presentModal(result, 'MRZ');
+    } else {
+      this.handleButtonClickToast('NO DATA FOUND!', 'danger', 'close-circle');
+    }
+  }
+
+  async documentScannerFunction() {
+    const opts: DocumentScannerOptions = {};
+    this.documentScanner
+      .scanDoc(opts)
+      .then((res: string) => {
+        alert(res);
+        this.handleButtonClickToast(
+        'Successfully Scanned',
+        'success',
+        'information-circle'
+      );
+        this.data = res;
+      })
+      .catch((error: any) => this.handleButtonClickToast('NO DATA FOUND!' + error(error), 'danger', 'close-circle'));
   }
 
   stopScanner() {
@@ -61,33 +116,45 @@ export class ScannerPage implements OnInit {
     this.scanActive = false;
   }
 
-  async handleButtonClick() {
+  async handleButtonClickToast(message, color, icon) {
     const toast = await this.toastController.create({
-      color: 'dark',
-      duration: 3000,
-      message: 'Scanned successfully',
-      icon: 'information-circle',
+      // eslint-disable-next-line object-shorthand
+      color: color,
+      duration: 5000,
+      // eslint-disable-next-line object-shorthand
+      message: message,
+      // eslint-disable-next-line object-shorthand
+      icon: icon,
       position: 'top',
     });
     await toast.present();
   }
 
-  async presentModal(result) {
+  async presentModal(result, type) {
     const modal = await this.modalController.create({
       component: ScanDataPage,
-      initialBreakpoint: 0.2,
+      initialBreakpoint: 0.5,
       breakpoints: [0, 0.2, 0.5, 1],
       //cssClass: 'my-custom-class',
       componentProps: {
-        firstName: result,
-        lastName: 'Adams',
-        middleInitial: 'N'
+        // eslint-disable-next-line object-shorthand
+        result: result,
+        // eslint-disable-next-line object-shorthand
+        type: type
+      },
+    });
+
+    //Creating intent to send data to KoBo
+    //#1 - Get date from modal
+    modal.onDidDismiss().then((modalDataResponse) => {
+      if (modalDataResponse !== null) {
+        this.modalDataResponse = modalDataResponse.data;
+        alert('Modal Sent Data : '+ modalDataResponse.data);
       }
     });
+
     return await modal.present();
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

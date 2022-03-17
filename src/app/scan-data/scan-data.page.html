@@ -5,10 +5,52 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
+  <ion-grid *ngIf="type === 'MRZ'" >
     <ion-row>
       <ion-col text-center>
-        Scanned Content : {{ firstName }}
+        Document Number : {{ result.scanner_result.documentNumber }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center>
+        Document DoB : {{ result.scanner_result.dateOfBirth }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center>
+        Document Expiry Date : {{ result.scanner_result.expirationDate }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center>
+        Document Given Name : {{ result.scanner_result.givenNames }} {{ result.scanner_result.surname }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center>
+        Document Issuing Country : {{ result.scanner_result.issuingCountry }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center>
+        Document Nationality : {{ result.scanner_result.nationality }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center>
+        Document Sex : {{ result.scanner_result.sex }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center>
+        Document Valid : {{ result.scanner_result.validComposite }}
       </ion-col>
     </ion-row>
     <ion-row>
