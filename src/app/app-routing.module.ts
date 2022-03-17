@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+  },
+  {
+    path: 'scan-data',
+    loadChildren: () => import('./scan-data/scan-data.module').then( m => m.ScanDataPageModule)
   }
 ];
 

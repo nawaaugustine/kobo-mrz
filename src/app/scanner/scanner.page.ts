@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { ToastController, ModalController } from '@ionic/angular';
+import { ScanDataPage } from '../scan-data/scan-data.page';
 
 @Component({
   selector: 'app-scanner',
@@ -12,7 +14,7 @@ export class ScannerPage implements OnInit {
 
   scanActive = false;
 
-  constructor() { }
+  constructor(private toastController: ToastController, private modalController: ModalController) { }
 
   async checkPermission() {
     return new Promise(async (resolve, reject) => {
@@ -37,6 +39,8 @@ export class ScannerPage implements OnInit {
 
       if (result.hasContent) {
         this.scanActive = false;
+        this.handleButtonClick();
+        this.presentModal(result.content);
         //alert(result.content); //The QR content will come out here
         //Handle the data as your heart desires here
       } else {
@@ -55,6 +59,32 @@ export class ScannerPage implements OnInit {
   ionViewWillLeave() {
     BarcodeScanner.stopScan();
     this.scanActive = false;
+  }
+
+  async handleButtonClick() {
+    const toast = await this.toastController.create({
+      color: 'dark',
+      duration: 3000,
+      message: 'Scanned successfully',
+      icon: 'information-circle',
+      position: 'top',
+    });
+    await toast.present();
+  }
+
+  async presentModal(result) {
+    const modal = await this.modalController.create({
+      component: ScanDataPage,
+      initialBreakpoint: 0.2,
+      breakpoints: [0, 0.2, 0.5, 1],
+      //cssClass: 'my-custom-class',
+      componentProps: {
+        firstName: result,
+        lastName: 'Adams',
+        middleInitial: 'N'
+      }
+    });
+    return await modal.present();
   }
 
   ngOnInit() {
