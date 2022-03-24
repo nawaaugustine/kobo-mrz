@@ -8,6 +8,10 @@
 		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
 	},
 	{
+		"pkg": "@capacitor/filesystem",
+		"classpath": "com.capacitorjs.plugins.filesystem.FilesystemPlugin"
+	},
+	{
 		"pkg": "@capacitor/haptics",
 		"classpath": "com.capacitorjs.plugins.haptics.HapticsPlugin"
 	},
@@ -20,7 +24,11 @@
 		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
 	},
 	{
-		"pkg": "@idpass/smartscanner-capacitor",
-		"classpath": "org.idpass.smartscanner.capacitor.SmartScannerPlugin"
+		"pkg": "@microblink/blinkid-capacitor",
+		"classpath": "com.microblink.capacitor.MicroblinkPlugin"
+	},
+	{
+		"pkg": "send-intent",
+		"classpath": "de.mindlib.sendIntent.SendIntent"
 	}
 ]

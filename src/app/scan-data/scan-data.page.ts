@@ -20,6 +20,7 @@ export class ScanDataPage implements OnInit {
   async close() {
     const closeModal = 'Modal Closed';
     await this.modalCtr.dismiss(closeModal);
+    navigator['app'].exitApp();
   }
 
 }

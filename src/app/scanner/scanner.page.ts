@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { ToastController, ModalController } from '@ionic/angular';
 import { ScanDataPage } from '../scan-data/scan-data.page';
-import { DocumentScanner, DocumentScannerOptions } from '@ionic-native/document-scanner/ngx';
+import * as BlinkID from '@microblink/blinkid-capacitor';
 
-const { SmartScannerPlugin } = Plugins;
+
+import { Plugins } from '@capacitor/core';
+const { LauncherActivity } = Plugins;
 
 @Component({
   selector: 'app-scanner',
@@ -17,11 +17,14 @@ export class ScannerPage implements OnInit {
   scanActive = false;
   data: any;
   modalDataResponse: any;
+  results: string;
+  documentFront: string;
+  documentBack: string;
+  documentFace: string;
 
   constructor(
     private toastController: ToastController,
     private modalController: ModalController,
-    private documentScanner: DocumentScanner
   ) {}
 
   async checkPermission() {
@@ -60,50 +63,147 @@ export class ScannerPage implements OnInit {
       this.handleButtonClickToast('NOT ALLOWED!', 'danger', 'close-circle');
     }
   }
+  async mrzScannerPremium() {
+    // Initialize plugin
+    const plugin = new BlinkID.BlinkIDPlugin();
 
-  async mrzScanner() {
-    const result = await SmartScannerPlugin.executeScanner({
-      action: 'START_SCANNER',
-      options: {
-        mode: 'mrz',
-        mrzFormat: 'MRTD_TD1',
-        config: {
-          background: '#89837c',
-          branding: false,
-          isManualCapture: true,
-          label: 'Scanning ID',
-        },
-      },
-    });
+    // Initialize wanted recognizer
+    const blinkIdCombinedRecognizer = new BlinkID.BlinkIdCombinedRecognizer();
+    blinkIdCombinedRecognizer.returnFullDocumentImage = true;
+    blinkIdCombinedRecognizer.returnFaceImage = true;
 
-    const isNotEmpty = Object.keys(result).length > 0;
+    // Initialize license
+    const licenseKeys: BlinkID.License = {
+      ios: '<your_ios_license>',
+      android:
+        // eslint-disable-next-line max-len
+        'sRwAAAAQaW8ubmF3YS5rb2JvLm1yeuhLhIluZ0O3VbVxSKwMHS0sF13LLuLbRqr6u+77I9tO0dcHlwvvHzDbROmk2rZS+cdddB4yNmqsKHowQA8nk8FTUjZU/HRh+oDDjJ+QQedi9yL1IAP3+JX+x/r/NcziKvORokQzDyVuseUuiw/zVo46cbuQQmiyZkbqLPjFR+kJLvty+jhxKkK+2ciZfL5Ult59oYmFTKPXDS7lCghW0qm4U9CUeTXKUovq4uBlCfVL',
+      showTrialLicenseWarning: false,
+    };
 
-    if (isNotEmpty) {
-      this.handleButtonClickToast(
-        'Successfully Scanned',
-        'success',
-        'information-circle'
-      );
-      this.presentModal(result, 'MRZ');
-    } else {
-      this.handleButtonClickToast('NO DATA FOUND!', 'danger', 'close-circle');
+    // Perform scan and gather results
+    const scanningResults = await plugin.scanWithCamera(
+      new BlinkID.BlinkIdOverlaySettings(),
+      new BlinkID.RecognizerCollection([blinkIdCombinedRecognizer]),
+      licenseKeys
+    );
+
+    if (scanningResults.length === 0) {
+      return;
     }
+
+    for (const result of scanningResults) {
+      if (result instanceof BlinkID.BlinkIdCombinedRecognizerResult) {
+        this.results = this.getIdResultsString(result);
+        this.documentFront = result.fullDocumentFrontImage
+          ? `data:image/jpg;base64,${result.fullDocumentFrontImage}`
+          : undefined;
+        this.documentBack = result.fullDocumentBackImage
+          ? `data:image/jpg;base64,${result.fullDocumentBackImage}`
+          : undefined;
+        this.documentFace = result.faceImage
+          ? `data:image/jpg;base64,${result.faceImage}`
+          : undefined;
+      } else if (result instanceof BlinkID.MrtdCombinedRecognizerResult) {
+        this.results = this.getMrzResultsString(result);
+        this.documentFront = result.fullDocumentFrontImage
+          ? `data:image/jpg;base64,${result.fullDocumentFrontImage}`
+          : undefined;
+        this.documentBack = result.fullDocumentBackImage
+          ? `data:image/jpg;base64,${result.fullDocumentBackImage}`
+          : undefined;
+        this.documentFace = result.faceImage
+          ? `data:image/jpg;base64,${result.faceImage}`
+          : undefined;
+      }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    //LauncherActivity.sendMRT({ some_text1 : 'CUSTOM MESSAGE' });
+    this.presentModal(this.results, 'MRZ');
   }
 
-  async documentScannerFunction() {
-    const opts: DocumentScannerOptions = {};
-    this.documentScanner
-      .scanDoc(opts)
-      .then((res: string) => {
-        alert(res);
-        this.handleButtonClickToast(
-        'Successfully Scanned',
-        'success',
-        'information-circle'
+  getIdResultsString(result: BlinkID.BlinkIdCombinedRecognizerResult) {
+    return (
+      this.buildResult(result.firstName, 'First name') +
+      this.buildResult(result.lastName, 'Last name') +
+      this.buildResult(result.fullName, 'Full name') +
+      this.buildResult(result.localizedName, 'Localized name') +
+      this.buildResult(
+        result.additionalNameInformation,
+        'Additional name info'
+      ) +
+      this.buildResult(result.address, 'Address') +
+      this.buildResult(
+        result.additionalAddressInformation,
+        'Additional address info'
+      ) +
+      this.buildResult(result.documentNumber, 'Document number') +
+      this.buildResult(
+        result.documentAdditionalNumber,
+        'Additional document number'
+      ) +
+      this.buildResult(result.sex, 'Sex') +
+      this.buildResult(result.issuingAuthority, 'Issuing authority') +
+      this.buildResult(result.nationality, 'Nationality') +
+      this.buildDateResult(result.dateOfBirth, 'Date of birth') +
+      this.buildIntResult(result.age, 'Age') +
+      this.buildDateResult(result.dateOfIssue, 'Date of issue') +
+      this.buildDateResult(result.dateOfExpiry, 'Date of expiry') +
+      this.buildResult(
+        result.dateOfExpiryPermanent.toString(),
+        'Date of expiry permanent'
+      ) +
+      this.buildResult(result.maritalStatus, 'Martial status') +
+      this.buildResult(result.personalIdNumber, 'Personal Id Number') +
+      this.buildResult(result.profession, 'Profession') +
+      this.buildResult(result.race, 'Race') +
+      this.buildResult(result.religion, 'Religion') +
+      this.buildResult(result.residentialStatus, 'Residential Status')
+    );
+  }
+
+  getMrzResultsString(result: BlinkID.MrtdCombinedRecognizerResult) {
+    const mrzResult = result.mrzResult;
+    return (
+      this.buildResult(mrzResult.primaryId, 'Primary ID') +
+      this.buildResult(mrzResult.secondaryId, 'Secondary ID') +
+      this.buildResult(mrzResult.gender, 'Gender') +
+      this.buildResult(mrzResult.issuer, 'Issuer') +
+      this.buildResult(mrzResult.nationality, 'Nationality') +
+      this.buildDateResult(mrzResult.dateOfBirth, 'Date of birth') +
+      this.buildIntResult(mrzResult.age, 'Age') +
+      this.buildDateResult(mrzResult.dateOfExpiry, 'Date of expiry') +
+      this.buildResult(mrzResult.documentCode, 'Document code') +
+      this.buildResult(mrzResult.documentType, 'Document type') +
+      this.buildResult(mrzResult.opt1, 'Optional 1') +
+      this.buildResult(mrzResult.opt2, 'Optional 2') +
+      this.buildResult(mrzResult.mrzText, 'MRZ Text')
+    );
+  }
+
+  buildResult(result, key) {
+    if (result && result !== '') {
+      return `${key}: ${result}\n`;
+    }
+    return '';
+  }
+
+  buildDateResult(result, key) {
+    if (result && result.year !== 0) {
+      return this.buildResult(
+        `${result.day}.${result.month}.${result.year}`,
+        key
       );
-        this.data = res;
-      })
-      .catch((error: any) => this.handleButtonClickToast('NO DATA FOUND!' + error(error), 'danger', 'close-circle'));
+    }
+    return '';
+  }
+
+  buildIntResult(result, key) {
+    if (result >= 0) {
+      return this.buildResult(result.toString(), key);
+    }
+    return '';
   }
 
   stopScanner() {
@@ -140,7 +240,7 @@ export class ScannerPage implements OnInit {
         // eslint-disable-next-line object-shorthand
         result: result,
         // eslint-disable-next-line object-shorthand
-        type: type
+        type: type,
       },
     });
 
@@ -149,12 +249,13 @@ export class ScannerPage implements OnInit {
     modal.onDidDismiss().then((modalDataResponse) => {
       if (modalDataResponse !== null) {
         this.modalDataResponse = modalDataResponse.data;
-        alert('Modal Sent Data : '+ modalDataResponse.data);
+        //alert('Modal Sent Data : ' + modalDataResponse.data);
       }
     });
 
     return await modal.present();
   }
 
-  ngOnInit() {}
+ ngOnInit() {
+  }
 }
