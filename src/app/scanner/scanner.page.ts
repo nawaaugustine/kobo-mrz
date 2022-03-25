@@ -1,12 +1,19 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { ToastController, ModalController } from '@ionic/angular';
 import { ScanDataPage } from '../scan-data/scan-data.page';
 import * as BlinkID from '@microblink/blinkid-capacitor';
 
+import { LauncherActivity } from '../plugins/LauncherActivity';
 
-import { Plugins } from '@capacitor/core';
-const { LauncherActivity } = Plugins;
+// add a listener to native events which invokes some callback
+LauncherActivity.addListener('EVENT_LISTENER_NAME', ({ response }) =>
+  alert(response)
+);
+
+// destructure the methods to call our native code from our non-native app
+const { sendMRT } = LauncherActivity;
 
 @Component({
   selector: 'app-scanner',
@@ -24,7 +31,7 @@ export class ScannerPage implements OnInit {
 
   constructor(
     private toastController: ToastController,
-    private modalController: ModalController,
+    private modalController: ModalController
   ) {}
 
   async checkPermission() {
@@ -118,8 +125,10 @@ export class ScannerPage implements OnInit {
       }
     }
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    //LauncherActivity.sendMRT({ some_text1 : 'CUSTOM MESSAGE' });
+    // calling native method
+    this.sendData();
+
+    // calling the modal
     this.presentModal(this.results, 'MRZ');
   }
 
@@ -230,6 +239,13 @@ export class ScannerPage implements OnInit {
     await toast.present();
   }
 
+  async sendData() {
+    const { response } = await LauncherActivity.sendMRT(
+      {some_text1:'Test result 1', some_text2:'Test result 2'}
+    );
+    alert('Response from native:' + response);
+  }
+
   async presentModal(result, type) {
     const modal = await this.modalController.create({
       component: ScanDataPage,
@@ -256,6 +272,5 @@ export class ScannerPage implements OnInit {
     return await modal.present();
   }
 
- ngOnInit() {
-  }
+  ngOnInit() {}
 }
