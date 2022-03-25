@@ -126,7 +126,7 @@ export class ScannerPage implements OnInit {
     }
 
     // calling native method
-    this.sendData();
+    this.sendData(this.results);
 
     // calling the modal
     this.presentModal(this.results, 'MRZ');
@@ -134,10 +134,10 @@ export class ScannerPage implements OnInit {
 
   getIdResultsString(result: BlinkID.BlinkIdCombinedRecognizerResult) {
     return (
-      this.buildResult(result.firstName, 'First name') +
-      this.buildResult(result.lastName, 'Last name') +
-      this.buildResult(result.fullName, 'Full name') +
-      this.buildResult(result.localizedName, 'Localized name') +
+      this.buildResult(result.firstName, 'FirstName') +
+      this.buildResult(result.lastName, 'LastName') +
+      this.buildResult(result.fullName, 'FullName') +
+      this.buildResult(result.localizedName, 'LocalizedName') +
       this.buildResult(
         result.additionalNameInformation,
         'Additional name info'
@@ -147,17 +147,17 @@ export class ScannerPage implements OnInit {
         result.additionalAddressInformation,
         'Additional address info'
       ) +
-      this.buildResult(result.documentNumber, 'Document number') +
+      this.buildResult(result.documentNumber, 'DocumentNumber') +
       this.buildResult(
         result.documentAdditionalNumber,
-        'Additional document number'
+        'AdditionalDocumentNumber'
       ) +
       this.buildResult(result.sex, 'Sex') +
-      this.buildResult(result.issuingAuthority, 'Issuing authority') +
+      this.buildResult(result.issuingAuthority, 'IssuingAuthority') +
       this.buildResult(result.nationality, 'Nationality') +
-      this.buildDateResult(result.dateOfBirth, 'Date of birth') +
+      this.buildDateResult(result.dateOfBirth, 'DateOfBirth') +
       this.buildIntResult(result.age, 'Age') +
-      this.buildDateResult(result.dateOfIssue, 'Date of issue') +
+      this.buildDateResult(result.dateOfIssue, 'DateOfIssue') +
       this.buildDateResult(result.dateOfExpiry, 'Date of expiry') +
       this.buildResult(
         result.dateOfExpiryPermanent.toString(),
@@ -193,7 +193,7 @@ export class ScannerPage implements OnInit {
 
   buildResult(result, key) {
     if (result && result !== '') {
-      return `${key}: ${result}\n`;
+      return `${key}: ${result}`;
     }
     return '';
   }
@@ -239,7 +239,7 @@ export class ScannerPage implements OnInit {
     await toast.present();
   }
 
-  async sendData() {
+  async sendData(result) {
     const { response } = await LauncherActivity.sendMRT(
       {some_text1:'Test result 1', some_text2:'Test result 2'}
     );
