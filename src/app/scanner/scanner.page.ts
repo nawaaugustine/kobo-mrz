@@ -125,11 +125,14 @@ export class ScannerPage implements OnInit {
       }
     }
 
-    // calling native method
-    this.sendData(this.results);
-
+    // TODO: Add a modal to preview scanned data
+    //TODO: Cleaned up the modal page
     // calling the modal
     this.presentModal(this.results, 'MRZ');
+
+    // calling native method
+    this.sendData(scanningResults);
+
   }
 
   getIdResultsString(result: BlinkID.BlinkIdCombinedRecognizerResult) {
@@ -138,14 +141,11 @@ export class ScannerPage implements OnInit {
       this.buildResult(result.lastName, 'LastName') +
       this.buildResult(result.fullName, 'FullName') +
       this.buildResult(result.localizedName, 'LocalizedName') +
-      this.buildResult(
-        result.additionalNameInformation,
-        'Additional name info'
-      ) +
+      this.buildResult(result.additionalNameInformation, 'AdditionalNameInfo') +
       this.buildResult(result.address, 'Address') +
       this.buildResult(
         result.additionalAddressInformation,
-        'Additional address info'
+        'AdditionalAddressInfo'
       ) +
       this.buildResult(result.documentNumber, 'DocumentNumber') +
       this.buildResult(
@@ -158,42 +158,42 @@ export class ScannerPage implements OnInit {
       this.buildDateResult(result.dateOfBirth, 'DateOfBirth') +
       this.buildIntResult(result.age, 'Age') +
       this.buildDateResult(result.dateOfIssue, 'DateOfIssue') +
-      this.buildDateResult(result.dateOfExpiry, 'Date of expiry') +
+      this.buildDateResult(result.dateOfExpiry, 'DateOfExpiry') +
       this.buildResult(
         result.dateOfExpiryPermanent.toString(),
-        'Date of expiry permanent'
+        'DateOfExpiryPermanent'
       ) +
-      this.buildResult(result.maritalStatus, 'Martial status') +
-      this.buildResult(result.personalIdNumber, 'Personal Id Number') +
+      this.buildResult(result.maritalStatus, 'MartialStatus') +
+      this.buildResult(result.personalIdNumber, 'PersonalIdNumber') +
       this.buildResult(result.profession, 'Profession') +
       this.buildResult(result.race, 'Race') +
       this.buildResult(result.religion, 'Religion') +
-      this.buildResult(result.residentialStatus, 'Residential Status')
+      this.buildResult(result.residentialStatus, 'ResidentialStatus')
     );
   }
 
   getMrzResultsString(result: BlinkID.MrtdCombinedRecognizerResult) {
     const mrzResult = result.mrzResult;
     return (
-      this.buildResult(mrzResult.primaryId, 'Primary ID') +
-      this.buildResult(mrzResult.secondaryId, 'Secondary ID') +
+      this.buildResult(mrzResult.primaryId, 'PrimaryID') +
+      this.buildResult(mrzResult.secondaryId, 'SecondaryID') +
       this.buildResult(mrzResult.gender, 'Gender') +
       this.buildResult(mrzResult.issuer, 'Issuer') +
       this.buildResult(mrzResult.nationality, 'Nationality') +
-      this.buildDateResult(mrzResult.dateOfBirth, 'Date of birth') +
+      this.buildDateResult(mrzResult.dateOfBirth, 'DateOfBirth') +
       this.buildIntResult(mrzResult.age, 'Age') +
-      this.buildDateResult(mrzResult.dateOfExpiry, 'Date of expiry') +
-      this.buildResult(mrzResult.documentCode, 'Document code') +
-      this.buildResult(mrzResult.documentType, 'Document type') +
-      this.buildResult(mrzResult.opt1, 'Optional 1') +
-      this.buildResult(mrzResult.opt2, 'Optional 2') +
-      this.buildResult(mrzResult.mrzText, 'MRZ Text')
+      this.buildDateResult(mrzResult.dateOfExpiry, 'DateOfExpiry') +
+      this.buildResult(mrzResult.documentCode, 'DocumentCode') +
+      this.buildResult(mrzResult.documentType, 'DocumentType') +
+      this.buildResult(mrzResult.opt1, 'Optional1') +
+      this.buildResult(mrzResult.opt2, 'Optional2') +
+      this.buildResult(mrzResult.mrzText, 'MRZText')
     );
   }
 
   buildResult(result, key) {
     if (result && result !== '') {
-      return `${key}: ${result}`;
+      return `${key}: ${result}/n`;
     }
     return '';
   }
@@ -240,9 +240,18 @@ export class ScannerPage implements OnInit {
   }
 
   async sendData(result) {
-    const { response } = await LauncherActivity.sendMRT(
-      {some_text1:'Test result 1', some_text2:'Test result 2'}
-    );
+    let firstName;
+    let lastName;
+    for (const scan of result) {
+      if (scan instanceof BlinkID.BlinkIdCombinedRecognizerResult) {
+        firstName = scan.firstName;
+        lastName = scan.lastName;
+      }
+    }
+    const { response } = await LauncherActivity.sendMRT({
+      some_text1: firstName,
+      some_text2: lastName,
+    });
     alert('Response from native:' + response);
   }
 
