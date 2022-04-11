@@ -132,9 +132,9 @@ export class ScannerPage implements OnInit {
 
     // calling native method
     this.sendData(scanningResults);
-
   }
 
+  // Returns a String with scanned result
   getIdResultsString(result: BlinkID.BlinkIdCombinedRecognizerResult) {
     return (
       this.buildResult(result.firstName, 'FirstName') +
@@ -242,15 +242,30 @@ export class ScannerPage implements OnInit {
   async sendData(result) {
     let firstName;
     let lastName;
+    let documentNumber;
+    let sex;
+    let age;
+
     for (const scan of result) {
       if (scan instanceof BlinkID.BlinkIdCombinedRecognizerResult) {
         firstName = scan.firstName;
         lastName = scan.lastName;
+        documentNumber = scan.documentNumber;
+        if (scan.sex.toLowerCase().trim() === 'm') {
+          sex = 'Male';
+        } else {
+          sex = 'Female';
+        }
+
+        age = scan.age;
       }
     }
     const { response } = await LauncherActivity.sendMRT({
-      some_text1: firstName,
-      some_text2: lastName,
+      Tazkira_no_001: documentNumber,
+      name: firstName,
+      father_name: lastName,
+      hhh_age: age,
+      hhh_gender: sex,
     });
     alert('Response from native:' + response);
   }

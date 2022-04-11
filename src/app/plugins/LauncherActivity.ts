@@ -4,7 +4,7 @@ import { registerPlugin, Plugin } from '@capacitor/core';
 //TODO: Make value addition dynamic based on the value passed to the method
 interface NativePluginInterface extends Plugin {
   sendMRT: (
-    options: { some_text1: string; some_text2: string }
+    options: { Tazkira_no_001: string; name: string; father_name: string; hhh_age: number; hhh_gender: string }
   ) => Promise<Record<'response', string>>;
 }
 
