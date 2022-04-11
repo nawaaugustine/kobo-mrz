@@ -20,16 +20,14 @@
   <h3 align="center">KoBoToolBox MRZ-Scanner</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    A bespoke solution for scanning MRZ-coded documents to extract data!
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/nawaaugustine/kobo-mrz">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/nawaaugustine/kobo-mrz/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/nawaaugustine/kobo-mrz/issues">Request Feature</a>
   </p>
 </div>
 
