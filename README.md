@@ -13,11 +13,11 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/nawaaugustine/kobo-mrz">
+    <img src="https://iihl.org/wp-content/uploads/2021/01/unhcr.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">KoBoToolBox MRZ-Scanner</h3>
 
   <p align="center">
     An awesome README template to jumpstart your projects!
