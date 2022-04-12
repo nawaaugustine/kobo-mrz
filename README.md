@@ -106,7 +106,7 @@ _Required resources and how to install and build them._
 
 _Below is the instructions on installing and setting up the scanner app._
 
-1. Get a 30-day Microblink SDK trial Key at [https://microblink.com/](https://microblink.com/)
+1. Get a 30-day MicroBlink SDK trial Key at [https://microblink.com/](https://microblink.com/)
 2. Clone the repo
    ```sh
    git clone https://github.com/nawaaugustine/kobo-mrz.git
