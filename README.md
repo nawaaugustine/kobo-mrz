@@ -243,8 +243,8 @@ Project Link: [https://github.com/nawaaugustine/kobo-mrz](https://github.com/naw
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
+Some useful resources
 * [Launching External Apps](https://docs.getodk.org/launch-apps-from-collect/)
+* [Intents and Intent Filters](https://developer.android.com/guide/components/intents-filters.html)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
