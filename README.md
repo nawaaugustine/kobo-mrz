@@ -75,7 +75,7 @@ This is a template solution, no one KoBo form will serve all projects since your
 
 ### Built With
 
-List of all major frameworks/libraries used to bootstrap this project.
+List of all major frameworks/libraries used to develop this project.
 
 * [IONIC](https://ionicframework.com/)
 * [MicroBlink SDK](https://microblink.com/)
