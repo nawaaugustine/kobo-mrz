@@ -19,7 +19,7 @@
     A bespoke solution for scanning MRZ-coded documents to extract data!
     <br />
     <br />
-    <a href="https://github.com/nawaaugustine/kobo-mrz">View Demo</a>
+    <a href="https://user-images.githubusercontent.com/9056187/162946489-010bffb7-f355-4ae9-819d-41efccb5fcdf.mp4">View Demo</a>
     ·
     <a href="https://github.com/nawaaugustine/kobo-mrz/issues">Report Bug</a>
     ·
@@ -178,7 +178,7 @@ KoBo `field-list` group can have an intent attribute that allows an external app
 
 
 ### Signed APK
-[Download the signed example APK here](https://unhcr365-my.sharepoint.com/personal/nawaa_unhcr_org/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK%2FKoBo%2DMRZ%2Drelease%2Eapk&parent=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK&ga=1)
+Download the signed example APK  [here](https://unhcr365-my.sharepoint.com/personal/nawaa_unhcr_org/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK%2FKoBo%2DMRZ%2Drelease%2Eapk&parent=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK&ga=1). Tested successfully on android version 8+ 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
