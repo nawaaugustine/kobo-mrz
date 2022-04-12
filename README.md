@@ -70,7 +70,7 @@ Key Features:
 * Works 100% offline
 * Pulls data from MRZ documents with capability to read other document types as well :smile:
 
-This is a template solution, no one KoBo form will serve all projects since your needs may be different (See [Usage](<a href="#usage">Usage</a>) for information on how to adapt this code for a different KoBo form). You may suggest changes by forking this repo and creating a pull request or opening an issue.
+This is a template solution, no one KoBo form will serve all projects since your needs may be different (See (<a href="#usage">Usage</a>) for information on how to adapt this code for a different KoBo form). You may suggest changes by forking this repo and creating a pull request or opening an issue.
 
 
 ### Built With
