@@ -1,12 +1,8 @@
 <div id="top"></div>
 
-<!-- PROJECT SHIELDS -->
+<!-- KoBo-MRZ Project -->
 <!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+*** Project Develop and maintain by Nawa Augustine
 -->
 
 
@@ -32,7 +28,6 @@
 </div>
 
 
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -48,9 +43,11 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#build">Build</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#example">Example</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -60,22 +57,20 @@
 </details>
 
 
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+<img src="https://user-images.githubusercontent.com/9056187/162921209-d0b09c0c-fda8-4c84-9d58-eb0ec41e2aa2.jpg" width="400px" height="800px" align="right">
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+At the DIMA in the UNHCR Asia and Pacific Regional Bureau, we have developed a bespoke KoBo integration that allows data to be extracted from an MRZ-enabled document and imported into KoBo. This automated approach was created to limit the risk of mistakes during a Rapid Assessment conducted in AFG. The objective is to collect the POCs' Name, Family Name, Age, and Gender by automatically reading the data from their national ID cards and saving it in KoBo. <br>
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+This application configures an Android intent. Intents are messaging objects used to request an action from another app component. Learn more in the [Android docs](https://developer.android.com/guide/components/intents-filters.html).
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+Key Features:
+* Integrates with [KoBoCollect](https://kobo.unhcr.org/) and [ODKCollect](https://getodk.org/)
+* Works 100% offline
+* Pulls data from MRZ documents with capability to read other document types as well :smile:
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+This is a template solution, no one KoBo form will serve all projects since your needs may be different. You may suggest changes by forking this repo and creating a pull request or opening an issue.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -85,14 +80,11 @@ Use the `BLANK_README.md` to get started.
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
+* [IONIC](https://ionicframework.com/)
+* [MicroBlink SDK](https://microblink.com/)
+* [Capacitorjs](https://capacitorjs.com/)
 * [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [Node.js](https://nodejs.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -101,34 +93,45 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+_Required resources and how to install and build them._
+
+* [Download the installer](https://nodejs.org/) for Node LTS.
+* Install the ionic CLI globally
   ```sh
-  npm install npm@latest -g
+  npm install -g ionic
   ```
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+_Below is the instructions on installing and setting up the scanner app._
 
-1. Get a free API Key at [https://example.com](https://example.com)
+1. Get a 30-day Microblink SDK trial Key at [https://microblink.com/](https://microblink.com/)
 2. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/nawaaugustine/kobo-mrz.git
    ```
-3. Install NPM packages
+3. Install NPM packages from your project root
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
+4. Enter your MicroBlink SDK key in `./src/app/scanner/scanner.page.ts`
    ```js
-   const API_KEY = 'ENTER YOUR API';
+   android: '<your_android_license>';
    ```
+
+### Build
+_See the instructions on the usage below before building._
+
+* Run `ionic build --prod`
+* Run `npx cap copy`
+* Run `npx cap sync`
+* Run `npx cap open android` ensure you already have androis studio installed
+* Goto your android studio and biuld the APK
+* Enjoy! :tada:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -137,9 +140,45 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+The below code change is required in other to adabt this template to your KoBo form.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+1. Change values in `./src/app/plugins/LauncherActivity.ts`. The new values should match exactly your KoBo data name labels
+![code](https://user-images.githubusercontent.com/9056187/162917864-4261686a-e4a3-46fe-8499-5dbc14ea9b73.png)
+
+2. Change values assignment in `./src/app/scanner/scanner.page.ts`
+![code2](https://user-images.githubusercontent.com/9056187/162918756-2f323813-71a9-4ed3-b59e-1cea01975a5c.png)
+
+3. Pass assigned values to main andriod activity in `./android/app/src/main/java/io/nawa/kobo/mrz/LauncherActivity.java`
+![code3](https://user-images.githubusercontent.com/9056187/162919265-001f5dd9-f263-461e-aea8-35e8f93b8f14.png)
+
+4. Recieve and push values to KoBo in `./android/app/src/main/java/io/nawa/kobo/mrz/MainActivity.java`
+![code4](https://user-images.githubusercontent.com/9056187/162919959-14a25c9f-cad3-4d25-adbf-d32103488a51.png)
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- EXAMPLES -->
+## Example
+#### Example of an external apps to populate multiple fields in KoBo
+KoBo `field-list` group can have an intent attribute that allows an external application to populate it.
+
+### XLSForm
+
+| type          | name             | label              | appearance   | body::intent   
+| ------------- | ---------------- | ------------------ | -----------  | ----------------- 
+| begin_group   | `mygroup`        | Fields to populate | `field-list` | `io.nawa.kobo.mrz`
+| `text`        | `Tazkira_no_001` | ID Number          |              |
+| `text`        | `name`           | First Name         | 
+| `text`        | `father_name`    | Family Name        | 
+| `integer`     | `hhh_age`        | Age                | 
+| `text`        | `hhh_gender`     | Gender             | 
+| end_group
+
+
+### Signed APK
+[Download the signed example APK here](https://unhcr365-my.sharepoint.com/personal/nawaa_unhcr_org/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK%2FKoBo%2DMRZ%2Drelease%2Eapk&parent=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK&ga=1)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -148,18 +187,19 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
+- [ ] Add Changelog
+- [ ] Make value addition dynamic based on the value passed to the method
+- [ ] Add a modal to preview scanned data before sending to KoBo?
+- [ ] Support for data extraction from QRCode/BareCode
+- [ ] Support for data extraction from other document types
+- [ ] Multi-language Support?
+    - [ ] French
     - [ ] Spanish
+    - [ ] Arabic
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/nawaaugustine/kobo-mrz/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- CONTRIBUTING -->
@@ -172,7 +212,7 @@ Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+3. Commit your Changes (`git commit -m 'Added some Amazing Feature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
@@ -192,9 +232,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Augustine Nawa - [@nawaaugustine](https://twitter.com/nawaaugustine) - nawaaugustine@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/nawaaugustine/kobo-mrz](https://github.com/nawaaugustine/kobo-mrz/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -205,13 +245,6 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 
 Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Launching External Apps](https://docs.getodk.org/launch-apps-from-collect/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
