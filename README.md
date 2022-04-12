@@ -126,8 +126,8 @@ _See the instructions on the usage below before building._
 * Run `ionic build --prod`
 * Run `npx cap copy`
 * Run `npx cap sync`
-* Run `npx cap open android` ensure you already have androis studio installed
-* Goto your android studio and biuld the APK
+* Run `npx cap open android` ensure you already have android studio installed
+* Goto your android studio and build the APK
 * Enjoy! :tada:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
