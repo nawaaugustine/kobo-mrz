@@ -192,6 +192,7 @@ Download the signed example APK  [here](https://unhcr365-my.sharepoint.com/perso
 - [ ] Add a modal to preview scanned data before sending to KoBo?
 - [ ] Support for data extraction from QRCode/BareCode
 - [ ] Support for data extraction from other document types
+- [ ] Remove scanning capability if scanner app is not launched from KoBo
 - [ ] Multi-language Support?
     - [ ] French
     - [ ] Spanish
