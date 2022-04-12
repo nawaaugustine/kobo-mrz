@@ -72,9 +72,6 @@ Key Features:
 
 This is a template solution, no one KoBo form will serve all projects since your needs may be different. You may suggest changes by forking this repo and creating a pull request or opening an issue.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 ### Built With
 
