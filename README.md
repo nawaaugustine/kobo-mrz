@@ -70,7 +70,7 @@ Key Features:
 * Works 100% offline
 * Pulls data from MRZ documents with capability to read other document types as well :smile:
 
-This is a template solution, no one KoBo form will serve all projects since your needs may be different (See (<a href="#usage">Usage</a>) for information on how to adapt this code for a different KoBo form). You may suggest changes by forking this repo and creating a pull request or opening an issue.
+This is a template solution, no one KoBo form will serve all projects since your needs may be different (See <a href="#usage">usage</a> for information on how to adapt this code for a different KoBo form). You may suggest changes by forking this repo and creating a pull request or opening an issue.
 
 
 ### Built With
@@ -158,7 +158,7 @@ The below code change is required in other to adabt this template to your KoBo f
 
 <!-- EXAMPLES -->
 ## Example
-#### Example of an external apps to populate multiple fields in KoBo
+#### Example of an external app to populate multiple fields in KoBo
 KoBo `field-list` group can have an intent attribute that allows an external application to populate it.
 
 ### XLSForm
@@ -175,7 +175,7 @@ KoBo `field-list` group can have an intent attribute that allows an external app
 
 
 ### Signed APK
-Download the signed example APK  [here](https://unhcr365-my.sharepoint.com/personal/nawaa_unhcr_org/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK%2FKoBo%2DMRZ%2Drelease%2Eapk&parent=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK&ga=1). Tested successfully on android version 8+ 
+Download the signed example APK  [here](https://unhcr365-my.sharepoint.com/personal/nawaa_unhcr_org/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK%2FKoBo%2DMRZ%2Drelease%2Eapk&parent=%2Fpersonal%2Fnawaa%5Funhcr%5Forg%2FDocuments%2FAPK&ga=1). Tested successfully on android version `8+` 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -187,7 +187,7 @@ Download the signed example APK  [here](https://unhcr365-my.sharepoint.com/perso
 - [ ] Add Changelog
 - [ ] Make value addition dynamic based on the value passed to the method
 - [ ] Add a modal to preview scanned data before sending to KoBo?
-- [ ] Support for data extraction from QRCode/BareCode
+- [ ] Support for data extraction from QRCode/BarCode
 - [ ] Support for data extraction from other document types
 - [ ] Remove scanning capability if scanner app is not launched from KoBo
 - [ ] Multi-language Support?
