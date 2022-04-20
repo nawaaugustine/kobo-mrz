@@ -59,7 +59,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<img src="https://user-images.githubusercontent.com/9056187/162921209-d0b09c0c-fda8-4c84-9d58-eb0ec41e2aa2.jpg" width="400px" height="800px" align="right">
+<img src="https://user-images.githubusercontent.com/9056187/164194257-3dc4c882-2892-4cf8-9544-8604524fbca7.png" width="400px" height="800px" align="right">
 
 At the DIMA in the UNHCR Asia and Pacific Regional Bureau, we have developed a bespoke KoBo integration that allows data to be extracted from an MRZ-enabled document and imported into KoBo. This automated approach was created to limit the risk of mistakes during a Rapid Assessment conducted in AFG. The objective is to collect the POCs' Name, Family Name, Age, and Gender by automatically reading the data from their national ID cards and saving it in KoBo. <br>
 
