@@ -1,6 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/NOTICE', 'META-INF/LICENSE']
+        }
+    }
+    namespace 'io.nawa.kobo.mrz'
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "io.nawa.kobo.mrz"

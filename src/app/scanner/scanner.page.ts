@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
@@ -84,7 +85,7 @@ export class ScannerPage implements OnInit {
       ios: '<your_ios_license>',
       android:
         // eslint-disable-next-line max-len
-        'sRwAAAAQaW8ubmF3YS5rb2JvLm1yeuhLhIluZ0O3VbVxSKwMHS0sF13LLuLbRqr6u+77I9tO0dcHlwvvHzDbROmk2rZS+cdddB4yNmqsKHowQA8nk8FTUjZU/HRh+oDDjJ+QQedi9yL1IAP3+JX+x/r/NcziKvORokQzDyVuseUuiw/zVo46cbuQQmiyZkbqLPjFR+kJLvty+jhxKkK+2ciZfL5Ult59oYmFTKPXDS7lCghW0qm4U9CUeTXKUovq4uBlCfVL',
+        'sRwAAAAQaW8ubmF3YS5rb2JvLm1yeuhLhIluZ0O3VbVxSKxcPorKofncZqbYPgUOTRR7MF4dMnYu1LMf8Tfh8WUhepChjeStR/4K2dzayFrb5WtbrjsfVsdfdv5JdPj9kJP3rouXGKmDx0ZP/b29SMUfYhbCnGr/bSzAubZsSWd+4AX6lOjFAU1kresLEByrmNsPgDlOz4pvHdbLEMFQCfvkuGZPYbL7Xve87yJT2YGWTVdRNGkBzaEEljbZTQ2/0z7MtrVC',
       showTrialLicenseWarning: false,
     };
 
@@ -99,32 +100,6 @@ export class ScannerPage implements OnInit {
       return;
     }
 
-    for (const result of scanningResults) {
-      if (result instanceof BlinkID.BlinkIdCombinedRecognizerResult) {
-        this.results = this.getIdResultsString(result);
-        this.documentFront = result.fullDocumentFrontImage
-          ? `data:image/jpg;base64,${result.fullDocumentFrontImage}`
-          : undefined;
-        this.documentBack = result.fullDocumentBackImage
-          ? `data:image/jpg;base64,${result.fullDocumentBackImage}`
-          : undefined;
-        this.documentFace = result.faceImage
-          ? `data:image/jpg;base64,${result.faceImage}`
-          : undefined;
-      } else if (result instanceof BlinkID.MrtdCombinedRecognizerResult) {
-        this.results = this.getMrzResultsString(result);
-        this.documentFront = result.fullDocumentFrontImage
-          ? `data:image/jpg;base64,${result.fullDocumentFrontImage}`
-          : undefined;
-        this.documentBack = result.fullDocumentBackImage
-          ? `data:image/jpg;base64,${result.fullDocumentBackImage}`
-          : undefined;
-        this.documentFace = result.faceImage
-          ? `data:image/jpg;base64,${result.faceImage}`
-          : undefined;
-      }
-    }
-
     // TODO: Add a modal to preview scanned data
     //TODO: Cleaned up the modal page
     // calling the modal
@@ -132,92 +107,6 @@ export class ScannerPage implements OnInit {
 
     // calling native method
     this.sendData(scanningResults);
-  }
-
-  // Returns a String with scanned result
-  getIdResultsString(result: BlinkID.BlinkIdCombinedRecognizerResult) {
-    return (
-      this.buildResult(result.firstName, 'FirstName') +
-      this.buildResult(result.lastName, 'LastName') +
-      this.buildResult(result.fullName, 'FullName') +
-      this.buildResult(result.localizedName, 'LocalizedName') +
-      this.buildResult(result.additionalNameInformation, 'AdditionalNameInfo') +
-      this.buildResult(result.address, 'Address') +
-      this.buildResult(
-        result.additionalAddressInformation,
-        'AdditionalAddressInfo'
-      ) +
-      this.buildResult(result.documentNumber, 'DocumentNumber') +
-      this.buildResult(
-        result.documentAdditionalNumber,
-        'AdditionalDocumentNumber'
-      ) +
-      this.buildResult(result.sex, 'Sex') +
-      this.buildResult(result.issuingAuthority, 'IssuingAuthority') +
-      this.buildResult(result.nationality, 'Nationality') +
-      this.buildDateResult(result.dateOfBirth, 'DateOfBirth') +
-      this.buildIntResult(result.age, 'Age') +
-      this.buildDateResult(result.dateOfIssue, 'DateOfIssue') +
-      this.buildDateResult(result.dateOfExpiry, 'DateOfExpiry') +
-      this.buildResult(
-        result.dateOfExpiryPermanent.toString(),
-        'DateOfExpiryPermanent'
-      ) +
-      this.buildResult(result.maritalStatus, 'MartialStatus') +
-      this.buildResult(result.personalIdNumber, 'PersonalIdNumber') +
-      this.buildResult(result.profession, 'Profession') +
-      this.buildResult(result.race, 'Race') +
-      this.buildResult(result.religion, 'Religion') +
-      this.buildResult(result.residentialStatus, 'ResidentialStatus')
-    );
-  }
-
-  getMrzResultsString(result: BlinkID.MrtdCombinedRecognizerResult) {
-    const mrzResult = result.mrzResult;
-    return (
-      this.buildResult(mrzResult.primaryId, 'PrimaryID') +
-      this.buildResult(mrzResult.secondaryId, 'SecondaryID') +
-      this.buildResult(mrzResult.gender, 'Gender') +
-      this.buildResult(mrzResult.issuer, 'Issuer') +
-      this.buildResult(mrzResult.nationality, 'Nationality') +
-      this.buildDateResult(mrzResult.dateOfBirth, 'DateOfBirth') +
-      this.buildIntResult(mrzResult.age, 'Age') +
-      this.buildDateResult(mrzResult.dateOfExpiry, 'DateOfExpiry') +
-      this.buildResult(mrzResult.documentCode, 'DocumentCode') +
-      this.buildResult(mrzResult.documentType, 'DocumentType') +
-      this.buildResult(mrzResult.opt1, 'Optional1') +
-      this.buildResult(mrzResult.opt2, 'Optional2') +
-      this.buildResult(mrzResult.mrzText, 'MRZText')
-    );
-  }
-
-  buildResult(result, key) {
-    if (result && result !== '') {
-      return `${key}: ${result}/n`;
-    }
-    return '';
-  }
-
-  buildDateResult(result, key) {
-    if (result && result.year !== 0) {
-      return this.buildResult(
-        `${result.day}.${result.month}.${result.year}`,
-        key
-      );
-    }
-    return '';
-  }
-
-  buildIntResult(result, key) {
-    if (result >= 0) {
-      return this.buildResult(result.toString(), key);
-    }
-    return '';
-  }
-
-  stopScanner() {
-    BarcodeScanner.stopScan();
-    this.scanActive = false;
   }
 
   ionViewWillLeave() {
@@ -239,18 +128,26 @@ export class ScannerPage implements OnInit {
     await toast.present();
   }
 
+  // Requires customization depending on the required data for extraction.
+  /*
+  To view all available data options create an instance of the BlinkIdCombinedRecognizerResult object.
+  EG: 'scan instanceof BlinkID.BlinkIdCombinedRecognizerResult'
+  use the scan instance to view available data options.
+  */
   async sendData(result) {
-    let firstName;
-    let lastName;
+    let name;
+    let father_name;
     let documentNumber;
     let sex;
     let age;
+    let ID;
 
     for (const scan of result) {
-      if (scan instanceof BlinkID.BlinkIdCombinedRecognizerResult) {
-        firstName = scan.firstName;
-        lastName = scan.lastName;
-        documentNumber = scan.documentNumber;
+        name = scan.firstName + ' ' + scan.lastName;
+        father_name = scan.fathersName;
+        documentNumber = scan.mrzResult.documentNumber + scan.mrzResult.opt1;
+        ID = documentNumber.replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');;
+
         if (scan.sex.toLowerCase().trim() === 'm') {
           sex = 'Male';
         } else {
@@ -258,12 +155,12 @@ export class ScannerPage implements OnInit {
         }
 
         age = scan.age;
-      }
     }
+
     const { response } = await LauncherActivity.sendMRT({
-      Tazkira_no_001: documentNumber,
-      name: firstName,
-      father_name: lastName,
+      Tazkira_no_001: ID,
+      name: name,
+      father_name: father_name,
       hhh_age: age,
       hhh_gender: sex,
     });
