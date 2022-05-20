@@ -21,7 +21,7 @@
     "@angular/router": "~13.2.2",
     "@awesome-cordova-plugins/blinkid": "^5.40.0",
     "@awesome-cordova-plugins/core": "^5.40.0",
-    "@awesome-cordova-plugins/document-scanner": "^5.40.0",
+    "@awesome-cordova-plugins/document-scanner": "^5.41.0",
     "@awesome-cordova-plugins/web-intent": "^5.40.0",
     "@capacitor-community/barcode-scanner": "^2.1.0",
     "@capacitor/android": "3.4.3",
