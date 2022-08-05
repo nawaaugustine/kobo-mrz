@@ -14,15 +14,6 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <div id="results">
-      {{Results}}
-      <img [src]="DocumentFront"/>
-      <img [src]="DocumentBack"/>
-      <img [src]="DocumentFace" width="100"/>
-    </div>
-  </div>
-
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <ion-fab-button color="dark">
       <ion-icon md="add-circle-outline" ios="chevron-add-circle-outline"></ion-icon>
@@ -39,7 +30,7 @@
 
   <ion-row class="scan-button" [hidden]="!scanActive">
     <ion-col class="ion-no-padding">
-      <ion-button expand="full" (click)="stopScanner()">Stop</ion-button>
+      <ion-button expand="full">Stop</ion-button>
     </ion-col>
   </ion-row>
   <div class="scan-box" [hidden]="!scanActive"></div>
